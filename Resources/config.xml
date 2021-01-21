@@ -85,8 +85,8 @@
             <label>Day-of-month for monthly report</label>
             <label lang="de">Tag des Monats für Monatsbericht</label>
             <value>3</value>
-            <description>By default this should be the 3rd of each month.</description>
-            <description lang="de">Dies sollte standardmäßig der 3. jedes Monats sein.</description>
+            <description>By default this should be the 1st of each month.</description>
+            <description lang="de">Dies sollte standardmäßig der 1. jedes Monats sein.</description>
             <options>
                 <minValue>1</minValue>
                 <maxValue>28</maxValue>

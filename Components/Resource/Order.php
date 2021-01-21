@@ -50,6 +50,9 @@ class Order
         int $offset = 0,
         ?int $limit = null
     ): array {
+        $from->setTime(23,59,59, 999999);
+        $to->setTime(23,59,59, 999999);
+
         $query = $this->buildTaxableOrdersQuery();
         $query->setParameter(':sentStatus', $sentStatus, Connection::PARAM_INT_ARRAY)
             ->setParameter(':paidStatus', $paidStatus, Connection::PARAM_INT_ARRAY)
@@ -113,16 +116,16 @@ class Order
             ))
             ->having($query->expr()->orX(
                 $query->expr()->andX(
-                    $query->expr()->gte('sentDate', ':from'),
-                    $query->expr()->lt('sentDate', ':to')
+                    $query->expr()->gt('sentDate', ':from'),
+                    $query->expr()->lte('sentDate', ':to')
                 ),
                 $query->expr()->andX(
-                    $query->expr()->gte('paidDate', ':from'),
-                    $query->expr()->lt('paidDate', ':to')
+                    $query->expr()->gt('paidDate', ':from'),
+                    $query->expr()->lte('paidDate', ':to')
                 ),
                 $query->expr()->andX(
-                    $query->expr()->gte('refundDate', ':from'),
-                    $query->expr()->lt('refundDate', ':to')
+                    $query->expr()->gt('refundDate', ':from'),
+                    $query->expr()->lte('refundDate', ':to')
                 )
             ))
             ->orderBy('ord.ordernumber', 'ASC');

@@ -3,21 +3,19 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>VanWittlaerTaxdooConnector</label>
     <label lang="de">VanWittlaerTaxdooConnector</label>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <copyright>(c) vanWittlaer GmbH</copyright>
-
-    <description><![CDATA[
-
-    ]]></description>
-    <description lang="de"><![CDATA[
-
-    ]]></description>
 
     <license>AGPLv3</license>
     <link>https://vanwittlaer.de/</link>
     <author>vanWittlaer GmbH</author>
 
     <compatibility minVersion="5.5.1" />
+
+    <changelog version="0.0.2">
+        <changes>Corrections in determining date intervals.</changes>
+        <changes lang="de">Fehler bei Berechnung von Intervallen behoben.</changes>
+    </changelog>
 
     <changelog version="0.0.1">
         <changes>Pre-release</changes>

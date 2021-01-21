@@ -56,8 +56,8 @@ class Configuration
             'defaultSourceCode' => 'SWR5',
             'defaultChannelCode' => 'WEB',
             'historyInterval' => 'P2Y',
-            'monthlyInterval' => 'P64D',
-            'dailyInterval' => 'P2D',
+            'monthlyInterval' => 'P2M',
+            'dailyInterval' => 'P3D',
         ], $config);
     }
 

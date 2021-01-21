@@ -2,6 +2,7 @@
 
 namespace VanWittlaerTaxdooConnector\Services;
 
+use DateInterval;
 use DateTime;
 use Exception;
 use IteratorAggregate;
@@ -96,8 +97,21 @@ class Reporter
             $pluginConfig['taxdooPaidStatus'],
             $pluginConfig['taxdooRefundStatus']
         );
+        $fromIncl = $from->add(new DateInterval('P1D'));
+        if (count($orders) <= 0) {
+            $this->logger->notice('TaxdooConverter - no orders to report from ' .
+                $fromIncl->format('Y-m-d') . ' to ' . $to->format('Y-m-d') . ' (inclusive)'
+            );
+
+            if ($this->symfonyStyle instanceof SymfonyStyle) {
+                $this->symfonyStyle->warning('No orders to report for the given dates.');
+            }
+
+            return 0;
+        }
+
         $this->logger->notice('TaxdooConverter - reporting ' . count($orders) . ' orders from ' .
-            $from->format('Y-m-d') . ' to ' . $to->format('Y-m-d') . ' (inclusive)'
+            $fromIncl->format('Y-m-d') . ' to ' . $to->format('Y-m-d') . ' (inclusive)'
         );
         try {
             $insertedRows = $this->buildAndTransmit($orders);

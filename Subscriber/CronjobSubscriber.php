@@ -66,8 +66,7 @@ class CronjobSubscriber implements SubscriberInterface
     {
         $this->configuration->init();
 
-        $to = new DateTime('now');
-        $to->setTime(0, 0);
+        $to = (new DateTime('now'))->sub(new DateInterval('P1D'));
         $from = clone $to;
         if ($this->configuration->get('pluginConfig')['taxdooHistory']) {
 

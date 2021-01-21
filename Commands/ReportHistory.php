@@ -49,7 +49,6 @@ class ReportHistory extends ShopwareCommand
         }
 
         $end = new DateTime('now');
-        $end->setTime(0, 0);
         if ($options['to'] !== null) {
             try {
                 $end = new DateTime($options['to']);
@@ -64,7 +63,7 @@ class ReportHistory extends ShopwareCommand
         $begin->sub(new DateInterval('P2Y'));
         if ($options['from'] !== null) {
             try {
-                $begin = new DateTime($options['from']);
+                $begin = (new DateTime($options['from']))->sub(new DateInterval('P1D'));
             } catch (Exception $e) {
                 $style->error("Invalid date format for first day.");
 
