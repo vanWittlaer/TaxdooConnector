@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="van_wittlaer_taxdoo_connector.subscriber.cronjob_subscriber"
+                 class="VanWittlaerTaxdooConnector\Subscriber\CronjobSubscriber">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.reporter"/>
+            <argument type="service" id="shopware.plugin.config_writer"/>
+            <argument type="service" id="models"/>
+            <tag name="shopware.event_subscriber"/>
+        </service>
+
+    </services>
+</container>

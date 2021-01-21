@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="van_wittlaer_taxdoo_connector.services.configuration"
+                 class="VanWittlaerTaxdooConnector\Services\Configuration">
+            <argument type="expression">
+                container.hasParameter('shopware.vanWittlaerTaxdooConnector') ?
+                parameter('shopware.vanWittlaerTaxdooConnector') : []
+            </argument>
+            <argument type="service" id="shopware.plugin.cached_config_reader"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.logger"/>
+            <argument type="service" id="models"/>
+        </service>
+        <service id="van_wittlaer_taxdoo_connector.services.reporter"
+                 class="VanWittlaerTaxdooConnector\Services\Reporter">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.components.resource.order"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.transmitter"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.logger"/>
+            <argument type="tagged" tag="van_wittlaer_taxdoo_connector.collector"/>
+            <argument type="tagged" tag="van_wittlaer_taxdoo_connector.converter"/>
+        </service>
+        <service id="van_wittlaer_taxdoo_connector.services.product_exporter"
+                 class="VanWittlaerTaxdooConnector\Services\ProductExporter">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
+            <argument type="service" id="models"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.transmitter"/>
+        </service>
+        <service id="van_wittlaer_taxdoo_connector.services.transmitter"
+                 class="VanWittlaerTaxdooConnector\Services\Transmitter">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.components.taxdoo_client"/>
+        </service>
+    </services>
+</container>

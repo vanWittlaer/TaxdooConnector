@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="van_wittlaer_taxdoo_connector.components.taxdoo_client"
+                 class="VanWittlaerTaxdooConnector\Components\TaxdooClient">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
+            <argument type="service" id="van_wittlaer_taxdoo_connector.logger"/>
+        </service>
+
+        <service id="van_wittlaer_taxdoo_connector.components.resource.order"
+                 class="VanWittlaerTaxdooConnector\Components\Resource\Order">
+            <argument type="service" id="dbal_connection"/>
+            <argument type="service" id="models"/>
+        </service>
+
+    </services>
+</container>

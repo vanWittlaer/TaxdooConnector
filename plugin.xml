@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+    <label>VanWittlaerTaxdooConnector</label>
     <label lang="de">VanWittlaerTaxdooConnector</label>
-    <label lang="en">VanWittlaerTaxdooConnector</label>
     <version>0.0.1</version>
     <copyright>(c) vanWittlaer GmbH</copyright>
-    <license>proprietary</license>
+
+    <description><![CDATA[
+
+    ]]></description>
+    <description lang="de"><![CDATA[
+
+    ]]></description>
+
+    <license>AGPLv3</license>
     <link>https://vanwittlaer.de/</link>
     <author>vanWittlaer GmbH</author>
 
-    <compatibility minVersion="5.5.5" />
+    <compatibility minVersion="5.5.1" />
 
     <changelog version="0.0.1">
+        <changes>Pre-release</changes>
         <changes lang="de">Pre-release</changes>
-        <changes lang="en">Pre-release</changes>
     </changelog>
 </plugin>

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="van_wittlaer_taxdoo_connector.commands.report_history"
+                 class="VanWittlaerTaxdooConnector\Commands\ReportHistory">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.reporter"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="van_wittlaer_taxdoo_connector.commands.export_products"
+                 class="VanWittlaerTaxdooConnector\Commands\ExportProducts">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.product_exporter"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="van_wittlaer_taxdoo_connector.commands.cleanup"
+                 class="VanWittlaerTaxdooConnector\Commands\Cleanup">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.components.taxdoo_client"/>
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>

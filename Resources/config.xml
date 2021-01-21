@@ -1,16 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
-
     <elements>
-        <element type="text">
-            <name>demoConfig</name>
-            <label lang="de">Demo Konfiguration</label>
-            <label lang="en">Demo configuration</label>
-            <value>Just a demo configuration, without any effects.</value>
-            <description lang="de">Nur ein hoffentlich hilfreicher Text.</description>
-            <description lang="en">Hopefully this text will help you.</description>
+        <element type="boolean" required="true" scope="shop">
+            <name>taxdooActive</name>
+            <label>Reporting active</label>
+            <label lang="de">Reporting aktiv</label>
+            <value>false</value>
+            <description>Needs to be checked for each shop explicitely.</description>
+            <description lang="de">Muss für jeden Shop einzeln gesetzt werden!</description>
+        </element>
+        <element type="boolean" required="true">
+            <name>taxdooSandbox</name>
+            <label>Use Taxdoo Sandbox API</label>
+            <label lang="de">Verwende die Taxdoo-Testumgebung</label>
+            <value>false</value>
+            <description>For testing, you may want to us Taxdoo's sandbox environment.</description>
+            <description lang="de">Zum Testen können Sie die Taxdoo-Testumgebung nutzen.</description>
+        </element>
+        <element type="text" required="true">
+            <name>taxdooApiToken</name>
+            <label>Taxdoo API Token</label>
+            <label lang="de">Taxdoo API Token</label>
+            <description>Visit Taxdoo's dashboard -> Settings -> API for your token.</description>
+            <description lang="de">Ihren Token finden Sie im Taxdoo Dashboard unter Einstellungen -> API</description>
+        </element>
+        <element type="select" required="true">
+            <name>taxdooLoggerLevel</name>
+            <label>Logger Level</label>
+            <label lang="de">Logger Level</label>
+            <value>200</value>
+            <description>Logger level - set as adviced by vanWittlaer support. Default "Info".</description>
+            <description lang="de">Logger Level - nach Anweisung des vanWittlaer-Supports. Standard: "Info".
+            </description>
+            <store>
+                <option>
+                    <value>100</value>
+                    <label>Debug</label>
+                </option>
+                <option>
+                    <value>200</value>
+                    <label>Info</label>
+                </option>
+                <option>
+                    <value>250</value>
+                    <label>Notice</label>
+                </option>
+            </store>
+        </element>
+        <element type="select" scope="shop">
+            <name>taxdooShopWarehouse</name>
+            <label>Sending warehouse</label>
+            <label lang="de">Abgehendes Lager</label>
+            <description>Warehouse to be used as sending address for this shop.</description>
+            <description lang="de">Das als Absenderadresse für diesen Shop zu verwendende Lager.</description>
+            <store><![CDATA[Ext.define('VanWittlaerTaxdooConnector.Warehouse.Form', {
+    extend: 'Ext.data.Store',
+    fields: [
+        { name:'id', type: 'int' },
+        { name:'address', type: 'string' }
+    ],
+    autoLoad: true,
+    pageSize: 25,
+    proxy: {
+        type: 'ajax',
+        url: window.location.href.substr(0, window.location.href.indexOf('backend')) + 'backend/TaxdooWarehouses/list',
+        reader: {
+            type: 'json',
+            root: 'data',
+            totalProperty: 'total'
+        }
+    }
+    }).create();//new ]]>
+            </store>
+            <options>
+                <valueField>id</valueField>
+                <displayField>address</displayField>
+                <isCustomStore>true</isCustomStore>
+            </options>
+        </element>
+
+        <element type="number" required="true">
+            <name>taxdooMonthlyDoM</name>
+            <label>Day-of-month for monthly report</label>
+            <label lang="de">Tag des Monats für Monatsbericht</label>
+            <value>3</value>
+            <description>By default this should be the 3rd of each month.</description>
+            <description lang="de">Dies sollte standardmäßig der 3. jedes Monats sein.</description>
+            <options>
+                <minValue>1</minValue>
+                <maxValue>28</maxValue>
+            </options>
+        </element>
+
+        <element type="boolean" required="true">
+            <name>taxdooHistory</name>
+            <label>Report history on next daily</label>
+            <label lang="de">Historie statt nächstem Tagesbericht</label>
+            <value>false</value>
+            <description>Set this to true to have a full history of two years reported. One time setting, will be reset to false automatically.</description>
+            <description lang="de">Setzen Sie dies auf ja um die vollständige Historie von zwei Jahren zu übermitteln. Wird automatisch auf nein zurückgesetzt.</description>
+        </element>
+
+        <element type="button">
+            <name>taxdooStatusCodes</name>
+            <label>Status Codes</label>
+        </element>
+
+        <element type="combo" required="true">
+            <name>taxdooSentStatus</name>
+            <label>A collection of status ids representing "sent"</label>
+            <label lang="de">Liste der Statuscodes für "versendet"</label>
+            <store>Shopware.apps.Base.store.OrderStatus</store>
+            <options>
+                <multiSelect>true</multiSelect>
+            </options>
+        </element>
+        <element type="combo" required="true">
+            <name>taxdooPaidStatus</name>
+            <label>A collection of status ids representing "paid"</label>
+            <label lang="de">Liste der Statuscodes für "bezahlt"</label>
+            <store>Shopware.apps.Base.store.PaymentStatus</store>
+            <options>
+                <multiSelect>true</multiSelect>
+            </options>
+        </element>
+        <element type="combo" required="true">
+            <name>taxdooRefundStatus</name>
+            <label>A collection of status ids representing "re-credited"</label>
+            <label lang="de">Liste der Statuscodes für "Wiedergutschrift"</label>
+            <store>Shopware.apps.Base.store.PaymentStatus</store>
+            <options>
+                <multiSelect>true</multiSelect>
+            </options>
+        </element>
+        <element type="combo" required="true">
+            <name>taxdooInvoiceDocTypes</name>
+            <label>A collection of document type ids representing invoices</label>
+            <label lang="de">Liste der Dokument-Ids für Rechnungen</label>
+            <store>Shopware.apps.Base.store.DocType</store>
+            <options>
+                <multiSelect>true</multiSelect>
+            </options>
+        </element>
+        <element type="combo" required="true">
+            <name>taxdooRefundDocTypes</name>
+            <label>A collection of document type ids representing refund or credit notes</label>
+            <label lang="de">Liste der Dokument-Ids für Gutschriften</label>
+            <store>Shopware.apps.Base.store.DocType</store>
+            <options>
+                <multiSelect>true</multiSelect>
+            </options>
         </element>
     </elements>
-
 </config>

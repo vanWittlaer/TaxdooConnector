@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="van_wittlaer_taxdoo_connector.components.collectors.shopware_collector"
+                 class="VanWittlaerTaxdooConnector\Components\Collectors\ShopwareCollector">
+            <argument type="service" id="models"/>
+            <tag name="van_wittlaer_taxdoo_connector.collector" priority="100"/>
+        </service>
+
+        <service id="van_wittlaer_taxdoo_connector.components.converter.shopware_converter"
+                 class="VanWittlaerTaxdooConnector\Components\Converter\ShopwareConverter">
+            <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
+            <tag name="van_wittlaer_taxdoo_connector.converter" priority="100"/>
+        </service>
+
+    </services>
+</container>

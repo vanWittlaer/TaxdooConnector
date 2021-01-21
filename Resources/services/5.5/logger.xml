@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="monolog.handler.rotating_file.vanwittlaer.taxdoo" class="Monolog\Handler\RotatingFileHandler">
+            <argument>%kernel.logs_dir%/taxdoo_%kernel.environment%.log</argument>
+            <argument type="expression">
+                container.hasParameter('shopware.vanwittlaer.taxdoo.logger.maxFiles') ?
+                parameter('shopware.vanwittlaer.taxdoo.logger.maxFiles') : 14
+            </argument>
+            <argument>200</argument>
+            <call method="pushProcessor">
+                <argument type="service" id="monolog.processor.uid" />
+            </call>
+        </service>
+
+        <service id="van_wittlaer_taxdoo_connector.logger" class="Shopware\Components\Logger">
+            <argument>TaxdooConverter</argument>
+            <call method="pushHandler">
+                <argument type="service" id="monolog.handler.rotating_file.vanwittlaer.taxdoo"/>
+            </call>
+        </service>
+
+    </services>
+</container>

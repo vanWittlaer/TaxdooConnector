@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="van_wittlaer_taxdoo_connector.components.collectors.magnalister_collector"
+                 class="VanWittlaerTaxdooConnector\Components\Collectors\MagnalisterCollector">
+            <argument type="service" id="dbal_connection"/>
+            <tag name="van_wittlaer_taxdoo_connector.collector" priority="50"/>
+        </service>
+        <service id="van_wittlaer_taxdoo_connector.components.converter.magnalister_converter"
+                 class="VanWittlaerTaxdooConnector\Components\Converter\MagnalisterConverter">
+            <tag name="van_wittlaer_taxdoo_connector.converter" priority="50"/>
+        </service>
+
+    </services>
+</container>
