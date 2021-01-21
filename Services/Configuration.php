@@ -4,10 +4,12 @@
 namespace VanWittlaerTaxdooConnector\Services;
 
 
+use Exception;
 use Shopware\Components\Logger;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Components\Plugin\ConfigReader;
 use Shopware\Models\Shop\Shop;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Configuration
 {
@@ -32,19 +34,39 @@ class Configuration
     private $modelManager;
 
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @var int
+     */
+    private $defaultWarehouseId;
+
+    /**
      * @var bool
      */
     private $initialized = false;
 
+    /**
+     * Configuration constructor.
+     * @param array $config
+     * @param ConfigReader $configReader
+     * @param Logger $logger
+     * @param ModelManager $modelManager
+     * @param ContainerInterface $container
+     */
     public function __construct(
         array $config,
         ConfigReader $configReader,
         Logger $logger,
-        ModelManager $modelManager
+        ModelManager $modelManager,
+        ContainerInterface $container
     ) {
         $this->configReader = $configReader;
         $this->logger = $logger;
         $this->modelManager = $modelManager;
+        $this->container = $container;
 
         $this->config = array_replace_recursive([
             'baseUrl' => 'https://api.taxdoo.com/',
@@ -98,6 +120,38 @@ class Configuration
         $this->init();
 
         return ($this->config[$parameter] ?: null);
+    }
+
+    /**
+     * @param int $shopId
+     * @return int
+     * @throws Exception
+     */
+    public function getDefaultWarehouseId(int $shopId): int
+    {
+        $this->init();
+
+        $id = $this->config['shops'][$shopId]['taxdooShopWarehouse'];
+        if ($id === null) {
+            if ($this->defaultWarehouseId === null) {
+                $taxdooClient = $this->container->get('van_wittlaer_taxdoo_connector.components.taxdoo_client');
+                $result = $taxdooClient->get('warehouses');
+                if ($result['status'] !== 'success') {
+
+                    throw new Exception('Taxdoo-Configuration - failed to retrieve warehouses from Taxdoo API');
+                }
+                foreach ($result['warehouses'] as $warehouse) {
+                    if ($warehouse['isStandard'] === true) {
+                        $this->defaultWarehouseId = $warehouse['id'];
+
+                        break;
+                    }
+                }
+            }
+            $id = $this->defaultWarehouseId;
+        }
+
+        return $id;
     }
 
     /**

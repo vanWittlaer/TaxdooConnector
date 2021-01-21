@@ -72,6 +72,9 @@ class MagnalisterConverter implements ConverterInterface
             case 'otto':
                 $channel = 'OTTO';
                 break;
+            case 'tradoria':
+                $channel = 'RAK';
+                break;
         }
 
         return new Platform($channel, $order->magnalister['orderId']);

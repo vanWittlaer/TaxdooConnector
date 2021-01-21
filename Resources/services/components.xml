@@ -7,7 +7,7 @@
     <services>
 
         <service id="van_wittlaer_taxdoo_connector.components.taxdoo_client"
-                 class="VanWittlaerTaxdooConnector\Components\TaxdooClient">
+                 class="VanWittlaerTaxdooConnector\Components\TaxdooClient" public="true">
             <argument type="service" id="van_wittlaer_taxdoo_connector.services.configuration"/>
             <argument type="service" id="van_wittlaer_taxdoo_connector.logger"/>
         </service>

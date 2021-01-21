@@ -113,13 +113,14 @@ class ShopwareConverter implements ConverterInterface
     /**
      * @param stdClass $order
      * @return SenderAddress
+     * @throws Exception
      */
     private function getSenderAddress(stdClass $order): SenderAddress
     {
         $address = new SenderAddress();
 
         $shopId = $order->shopware->getShop()->getId();
-        $identifier = $this->configuration->get('shops')[$shopId]['taxdooShopWarehouse'];
+        $identifier = $this->configuration->getDefaultWarehouseId($shopId);
         $address->setId($identifier);
 
         return $address;
