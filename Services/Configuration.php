@@ -135,18 +135,12 @@ class Configuration
         if ($id === null) {
             if ($this->defaultWarehouseId === null) {
                 $taxdooClient = $this->container->get('van_wittlaer_taxdoo_connector.components.taxdoo_client');
-                $result = $taxdooClient->get('warehouses');
+                $result = $taxdooClient->get('warehouses/standard');
                 if ($result['status'] !== 'success') {
 
                     throw new Exception('Taxdoo-Configuration - failed to retrieve warehouses from Taxdoo API');
                 }
-                foreach ($result['warehouses'] as $warehouse) {
-                    if ($warehouse['isStandard'] === true) {
-                        $this->defaultWarehouseId = $warehouse['id'];
-
-                        break;
-                    }
-                }
+                $this->defaultWarehouseId = $result['warehouse']['id'];
             }
             $id = $this->defaultWarehouseId;
         }
