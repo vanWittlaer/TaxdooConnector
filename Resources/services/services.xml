@@ -15,6 +15,7 @@
             <argument type="service" id="van_wittlaer_taxdoo_connector.logger"/>
             <argument type="service" id="models"/>
             <argument type="service" id="service_container"/>
+            <argument type="tagged" tag="van_wittlaer_taxdoo_connector.configurator"/>
         </service>
         <service id="van_wittlaer_taxdoo_connector.services.reporter"
                  class="VanWittlaerTaxdooConnector\Services\Reporter">

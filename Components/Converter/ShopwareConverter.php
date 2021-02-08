@@ -281,7 +281,11 @@ class ShopwareConverter implements ConverterInterface
     {
         $item = new OrderItem();
 
-        $item->setQuantity($detail->getQuantity());
+        $quantity = $detail->getQuantity();
+        if ($quantity === 0 && $detail->getShipped() > 0) {
+            $quantity = $detail->getShipped();
+        }
+        $item->setQuantity($quantity);
         $item->setProductIdentifier($detail->getArticleNumber());
         $item->setDescription($detail->getArticleName());
         $item->setItemPrice($detail->getPrice());

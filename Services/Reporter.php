@@ -135,6 +135,7 @@ class Reporter
      */
     private function buildAndTransmit($orders): int
     {
+
         $queue = clone $this->transmitter;
         $queue->setEndpoint('orders');
 

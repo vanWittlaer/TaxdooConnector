@@ -13,12 +13,12 @@ trait TraitTaxdooHelper
      */
     private function setIfNotNull(array &$data, string $field)
     {
-        if ($this->$field instanceof DateTimeInterface) {
-            !$this->$field ?: $data[$field] = $this->$field->format(DATE_RFC3339);
+        if (isset($this->$field) && $this->$field instanceof DateTimeInterface) {
+            ($this->$field === null) ?: $data[$field] = $this->$field->format(DATE_RFC3339);
 
             return;
         }
-        !$this->$field ?: $data[$field] = $this->$field;
+        (!isset($this->$field) || $this->$field === null) ?: $data[$field] = $this->$field;
     }
 
     /**
@@ -29,12 +29,12 @@ trait TraitTaxdooHelper
     {
         $data = [];
         foreach ($fields as $field) {
-            if ($this->$field instanceof DateTimeInterface) {
-                $this->$field === null ?: $data[$field] = $this->$field->format(DATE_RFC3339);
+            if (isset($this->$field) && $this->$field instanceof DateTimeInterface) {
+                ($this->$field === null) ?: $data[$field] = $this->$field->format(DATE_RFC3339);
 
                 continue;
             }
-            $this->$field === null ?: $data[$field] = $this->$field;
+            (!isset($this->$field) || $this->$field === null) ?: $data[$field] = $this->$field;
         }
 
         return $data;

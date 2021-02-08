@@ -5,11 +5,13 @@ namespace VanWittlaerTaxdooConnector\Services;
 
 
 use Exception;
+use IteratorAggregate;
 use Shopware\Components\Logger;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Components\Plugin\ConfigReader;
 use Shopware\Models\Shop\Shop;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use VanWittlaerTaxdooConnector\Components\Configurators\ConfiguratorInterface;
 
 class Configuration
 {
@@ -39,6 +41,11 @@ class Configuration
     private $container;
 
     /**
+     * @var ConfiguratorInterface[]
+     */
+    private $configurators;
+
+    /**
      * @var int
      */
     private $defaultWarehouseId;
@@ -55,18 +62,21 @@ class Configuration
      * @param Logger $logger
      * @param ModelManager $modelManager
      * @param ContainerInterface $container
+     * @param IteratorAggregate $configurators
      */
     public function __construct(
         array $config,
         ConfigReader $configReader,
         Logger $logger,
         ModelManager $modelManager,
-        ContainerInterface $container
+        ContainerInterface $container,
+        IteratorAggregate $configurators
     ) {
         $this->configReader = $configReader;
         $this->logger = $logger;
         $this->modelManager = $modelManager;
         $this->container = $container;
+        $this->configurators = iterator_to_array($configurators, false);
 
         $this->config = array_replace_recursive([
             'baseUrl' => 'https://api.taxdoo.com/',
@@ -91,13 +101,20 @@ class Configuration
      */
     public function init()
     {
-        if (!$this->initialized) {
-            $this->initialized = true;
-            $this->config['pluginConfig'] = $this->configReader->getByPluginName('VanWittlaerTaxdooConnector');
-            $this->config['shops'] = $this->getPluginConfigForShops();
-            foreach ($this->logger->getHandlers() as $handler) {
-                $handler->setLevel($this->config['pluginConfig']['taxdooLoggerLevel']);
-            }
+        if ($this->initialized) {
+
+            return;
+        }
+        $this->initialized = true;
+
+        $this->config['pluginConfig'] = $this->configReader->getByPluginName('VanWittlaerTaxdooConnector');
+        $this->config['shops'] = $this->getPluginConfigForShops();
+        foreach ($this->logger->getHandlers() as $handler) {
+            $handler->setLevel($this->config['pluginConfig']['taxdooLoggerLevel']);
+        }
+
+        foreach ($this->configurators as $configurator) {
+            $this->config[$configurator->getName()] = $configurator->init();
         }
     }
 

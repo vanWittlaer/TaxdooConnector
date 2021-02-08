@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>VanWittlaerTaxdooConnector</label>
     <label lang="de">VanWittlaerTaxdooConnector</label>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <copyright>(c) vanWittlaer GmbH</copyright>
 
     <license>AGPLv3</license>
@@ -11,6 +11,11 @@
     <author>vanWittlaer GmbH</author>
 
     <compatibility minVersion="5.5.1" />
+
+    <changelog version="0.0.4">
+        <changes>Initial release supporting PickwareERP support.</changes>
+        <changes lang="de">Erster Release mit Unterstützung für PickwareERP.</changes>
+    </changelog>
 
     <changelog version="0.0.3">
         <changes>Use default warehouse if none defined in plugin config.</changes>
