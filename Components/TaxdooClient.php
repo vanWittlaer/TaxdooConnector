@@ -17,7 +17,7 @@ class TaxdooClient
     const DEFAULT_LIMIT = 100;
     const DEFAULT_RESET = 60;
     const SUCCESS = [200];
-    const RECOVERABLE = [400];
+    const RECOVERABLE = [400, 401];
 
     /**
      * @var Configuration
