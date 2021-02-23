@@ -60,7 +60,7 @@
         { name:'id', type: 'int' },
         { name:'address', type: 'string' }
     ],
-    autoLoad: true,
+    autoLoad: false,
     pageSize: 25,
     proxy: {
         type: 'ajax',
