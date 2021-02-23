@@ -6,6 +6,7 @@ namespace VanWittlaerTaxdooConnector\Services;
 
 use Exception;
 use VanWittlaerTaxdooConnector\Components\TaxdooClient;
+use VanWittlaerTaxdooConnector\Structs\Order;
 use VanWittlaerTaxdooConnector\Structs\TaxdooElement;
 
 class Transmitter
@@ -60,7 +61,7 @@ class Transmitter
      */
     public function add(?TaxdooElement $taxdooElement)
     {
-        if ($taxdooElement instanceof TaxdooElement) {
+        if ($taxdooElement instanceof TaxdooElement && $this->shouldBeTransmitted($taxdooElement)) {
             $this->taxdooElements[] = $taxdooElement;
             if (count($this->taxdooElements) >= $this->configuration->get('apiChunkSize')) {
                 $this->flush();
@@ -92,5 +93,21 @@ class Transmitter
         }
 
         return $this->insertedRows;
+    }
+
+    /**
+     * @param TaxdooElement $taxdooElement
+     * @return bool
+     */
+    private function shouldBeTransmitted(TaxdooElement $taxdooElement): bool
+    {
+        if ($taxdooElement instanceof Order &&
+            in_array($taxdooElement->getChannel()->getIdentifier(),
+                $this->configuration->get('pluginConfig')['taxdooExcludedChannels'])) {
+
+            return false;
+        }
+
+        return true;
     }
 }

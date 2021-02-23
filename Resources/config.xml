@@ -98,8 +98,12 @@
             <label>Report history on next daily</label>
             <label lang="de">Historie statt nächstem Tagesbericht</label>
             <value>false</value>
-            <description>Set this to true to have a full history of two years reported. One time setting, will be reset to false automatically.</description>
-            <description lang="de">Setzen Sie dies auf ja um die vollständige Historie von zwei Jahren zu übermitteln. Wird automatisch auf nein zurückgesetzt.</description>
+            <description>Set this to true to have a full history of two years reported. One time setting, will be reset
+                to false automatically.
+            </description>
+            <description lang="de">Setzen Sie dies auf ja um die vollständige Historie von zwei Jahren zu übermitteln.
+                Wird automatisch auf nein zurückgesetzt.
+            </description>
         </element>
 
         <element type="button">
@@ -152,5 +156,49 @@
                 <multiSelect>true</multiSelect>
             </options>
         </element>
+
+        <element type="button">
+            <name>taxdooChannelSettings</name>
+            <label>Channel Settings - depending on market place plugins in use</label>
+            <label lang="de">Einstellungen für Channels - abhängig von eingesetzten Marketplace-Plugins</label>
+        </element>
+
+        <element type="select" required="false">
+            <name>taxdooExcludedChannels</name>
+            <label>Excluded Channels</label>
+            <label lang="de">Geblockte Channels</label>
+            <description>Orders from excluded channels will not be reported to Taxdoo. Please see Taxdoo documentation for available channel codes.</description>
+            <description lang="de">Bestellungen aus geblockten Channels werden nicht an Taxdoo übertragen. Verfügbare Channel-Bezeichner finden Sie in der Taxdoo-Dokumentation.</description>
+            <store>
+                <option>
+                    <value>MFN</value>
+                    <label>Amazon by Merchant (MFN)</label>
+                </option>
+                <option>
+                    <value>AFN</value>
+                    <label>Amazon Fulfillment (AFN)</label>
+                </option>
+                <option>
+                    <value>EBY</value>
+                    <label>Ebay</label>
+                </option>
+                <option>
+                    <value>REAL</value>
+                    <label>real.de</label>
+                </option>
+                <option>
+                    <value>OTTO</value>
+                    <label>Otto</label>
+                </option>
+                <option>
+                    <value>RAK</value>
+                    <label>Rakuten</label>
+                </option>
+            </store>
+            <options>
+                <multiSelect>true</multiSelect>
+            </options>
+        </element>
+
     </elements>
 </config>
