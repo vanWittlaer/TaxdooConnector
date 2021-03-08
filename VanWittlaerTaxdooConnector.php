@@ -80,6 +80,9 @@ class VanWittlaerTaxdooConnector extends Plugin
         if (isset($plugins['RedMagnalister']) && version_compare($plugins['RedMagnalister'], '3.0.10', '>=')) {
             $this->loadFile($container, __DIR__ . '/Resources/services/magnalister.xml');
         }
+        if (isset($plugins['OttIdealoDirectsale']) && version_compare($plugins['OttIdealoDirectsale'], '2.0.21', '>=')) {
+            $this->loadFile($container, __DIR__ . '/Resources/services/ottschoIdealo.xml');
+        }
 
         parent::build($container);
     }
