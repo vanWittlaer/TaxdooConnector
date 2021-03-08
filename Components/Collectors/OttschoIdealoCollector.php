@@ -7,10 +7,7 @@ namespace VanWittlaerTaxdooConnector\Components\Collectors;
 use Doctrine\ORM\EntityRepository;
 use OttIdealoDirectsale\Entity\IdealoOrderState;
 use Shopware\Components\Model\ModelManager;
-use Shopware\CustomModels\ViisonPickwareERP\StockLedger\StockLedgerEntry;
-use Shopware\Models\Order\Detail;
 use stdClass;
-use VanWittlaerTaxdooConnector\Components\Converter\ShopwareConverter;
 
 class OttschoIdealoCollector implements CollectorInterface
 {

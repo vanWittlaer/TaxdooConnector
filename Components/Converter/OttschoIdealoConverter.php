@@ -5,10 +5,8 @@ namespace VanWittlaerTaxdooConnector\Components\Converter;
 
 
 use stdClass;
-use VanWittlaerTaxdooConnector\Structs\FulfillmentCenter;
 use VanWittlaerTaxdooConnector\Structs\Order;
 use VanWittlaerTaxdooConnector\Structs\Platform;
-use VanWittlaerTaxdooConnector\Structs\SenderAddress;
 
 class OttschoIdealoConverter implements ConverterInterface
 {
