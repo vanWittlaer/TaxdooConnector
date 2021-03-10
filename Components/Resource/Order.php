@@ -128,7 +128,7 @@ class Order
                     $query->expr()->lte('refundDate', ':to')
                 )
             ))
-            ->orderBy('ord.ordernumber', 'ASC');
+            ->orderBy('ord.id', 'ASC');
 
         return $query;
     }
