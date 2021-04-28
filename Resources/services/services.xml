@@ -11,7 +11,7 @@
                 container.hasParameter('shopware.vanWittlaerTaxdooConnector') ?
                 parameter('shopware.vanWittlaerTaxdooConnector') : []
             </argument>
-            <argument type="service" id="shopware.plugin.cached_config_reader"/>
+            <argument type="service" id="shopware.plugin.config_reader"/>
             <argument type="service" id="van_wittlaer_taxdoo_connector.logger"/>
             <argument type="service" id="models"/>
             <argument type="service" id="service_container"/>

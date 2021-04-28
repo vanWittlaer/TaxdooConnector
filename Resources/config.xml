@@ -163,13 +163,18 @@
             <label lang="de">Einstellungen für Channels - abhängig von eingesetzten Marketplace-Plugins</label>
         </element>
 
-        <element type="select" required="false">
+        <element type="select" required="true">
             <name>taxdooExcludedChannels</name>
             <label>Excluded Channels</label>
             <label lang="de">Geblockte Channels</label>
             <description>Orders from excluded channels will not be reported to Taxdoo. Please see Taxdoo documentation for available channel codes.</description>
             <description lang="de">Bestellungen aus geblockten Channels werden nicht an Taxdoo übertragen. Verfügbare Channel-Bezeichner finden Sie in der Taxdoo-Dokumentation.</description>
             <store>
+                <option>
+                    <value>none</value>
+                    <label>none</label>
+                    <label lang="de">keine</label>
+                </option>
                 <option>
                     <value>MFN</value>
                     <label>Amazon by Merchant (MFN)</label>

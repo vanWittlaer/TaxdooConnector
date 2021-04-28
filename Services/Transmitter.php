@@ -101,9 +101,11 @@ class Transmitter
      */
     private function shouldBeTransmitted(TaxdooElement $taxdooElement): bool
     {
-        if ($taxdooElement instanceof Order &&
-            in_array($taxdooElement->getChannel()->getIdentifier(),
-                $this->configuration->get('pluginConfig')['taxdooExcludedChannels'])) {
+        $excluded = $this->configuration->get('pluginConfig')['taxdooExcludedChannels'];
+        if (!is_array($excluded)) {
+            $excluded = [$excluded];
+        }
+        if ($taxdooElement instanceof Order && in_array($taxdooElement->getChannel()->getIdentifier(), $excluded)) {
 
             return false;
         }
