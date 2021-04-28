@@ -1,7 +1,5 @@
 <?php
 
-declare(ticks=1);
-
 namespace VanWittlaerTaxdooConnector\Services;
 
 use DateInterval;
@@ -91,10 +89,6 @@ class Reporter
      */
     public function submit(DateTime $from, DateTime $to): int
     {
-        pcntl_signal(SIGINT, [$this, "sigHandler"], false);
-        pcntl_signal(SIGALRM, [$this, "sigHandler"], false);
-        pcntl_signal(SIGTERM, [$this, "sigHandler"], false);
-
         $pluginConfig = $this->configuration->get('pluginConfig');
 
         $orders = $this->orderResource->getTaxableOrders(
@@ -141,6 +135,7 @@ class Reporter
      */
     private function buildAndTransmit($orders): int
     {
+
         $queue = clone $this->transmitter;
         $queue->setEndpoint('orders');
 
@@ -182,7 +177,6 @@ class Reporter
     private function isReportingActiveForShop(stdClass $order): bool
     {
         $shopId = $order->shopware->getShop()->getId();
-
         return $this->configuration->get('shops')[$shopId]['taxdooActive'];
     }
 
@@ -218,15 +212,5 @@ class Reporter
         foreach ($this->converters as $converter) {
             $converter->convertRefund($order, $taxdooRefund);
         }
-    }
-
-    /**
-     * @param int $signal
-     */
-    public function sigHandler(int $signal)
-    {
-        $this->logger->error('TaxdooConverter - terminated with signal: ' . $signal);
-
-        exit();
     }
 }
